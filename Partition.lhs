@@ -82,6 +82,8 @@ Consider 3d isotropic harmonic oscilator.
      
 > partition' :: Int -> [[State]]
 > partition' num = map (\n -> nextStep' n (State num 0 0)) [0..num]
+>
+> partition = join . partition'
 
   *Partition> partition' 3
   [[State 3 0 0]
@@ -94,3 +96,5 @@ Consider 3d isotropic harmonic oscilator.
   *Partition> length it
   10
 
+> degeneracy :: Int -> Int
+> degeneracy n = (n+1)*(n+2) `div` 2
