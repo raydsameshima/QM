@@ -1,0 +1,72 @@
+Maxima 5.37.2 http://maxima.sourceforge.net
+using Lisp SBCL 1.3.11
+Distributed under the GNU Public License. See the file COPYING.
+Dedicated to the memory of William Schelter.
+The function bug_report() provides bug reporting information.
+maxima_userdir:  /Users/rds/.maxima 
+(%i1) batch("spinone.mac")
+
+read and interpret file: /Users/rds/Documents/Maxima/spinone.mac
+(%i2) genmatrix(lambda([m,n],M[-m,-n]),1,1,-1,-1)
+                        [  M        M        M        ]
+                        [   1, 1     1, 0     1, - 1  ]
+                        [                             ]
+(%o2)                   [  M        M        M        ]
+                        [   0, 1     0, 0     0, - 1  ]
+                        [                             ]
+                        [ M        M        M         ]
+                        [  - 1, 1   - 1, 0   - 1, - 1 ]
+(%i3) phasematrix:genmatrix(lambda([m,n],exp(-%i*((-m*a)-n*g))),1,1,-1,-1)
+               [   - %i (a + g)    - %i a      - %i (a - g)   ]
+               [ %e              %e          %e               ]
+               [                                              ]
+(%o3)          [      - %i g                       %i g       ]
+               [    %e              1            %e           ]
+               [                                              ]
+               [   - %i (g - a)     %i a     - %i ((- a) - g) ]
+               [ %e               %e       %e                 ]
+(%i4) d1(b):=matrix([(1+cos(b))/2,(-sin(b))/sqrt(2),(1-cos(b))/2],
+         [sin(b)/sqrt(2),cos(b),(-sin(b))/sqrt(2)],
+         [(1-cos(b))/2,sin(b)/sqrt(2),(1+cos(b))/2])
+                          [ cos(b) + 1  - sin(b)  1 - cos(b) ]
+                          [ ----------  --------  ---------- ]
+                          [     2       sqrt(2)       2      ]
+                          [                                  ]
+                          [  sin(b)                - sin(b)  ]
+(%o4)            d1(b) := [  -------     cos(b)    --------  ]
+                          [  sqrt(2)               sqrt(2)   ]
+                          [                                  ]
+                          [ 1 - cos(b)  sin(b)    cos(b) + 1 ]
+                          [ ----------  -------   ---------- ]
+                          [     2       sqrt(2)       2      ]
+(%i5) "* is the operator for component-wise multiplication"
+(%i6) phasematrix*d1(b)
+               [                - %i (a + g) ]
+               [ (1 + cos(b)) %e             ]         [     - %i a        ]
+               [ --------------------------- ]         [   %e       sin(b) ]
+               [              2              ]         [ - --------------- ]
+               [                             ]         [       sqrt(2)     ]
+               [                - %i g       ]         [                   ]
+(%o6)  Col 1 = [       sin(b) %e             ] Col 2 = [      cos(b)       ]
+               [       ---------------       ]         [                   ]
+               [           sqrt(2)           ]         [     %i a          ]
+               [                             ]         [   %e     sin(b)   ]
+               [                - %i (g - a) ]         [   -------------   ]
+               [ (1 - cos(b)) %e             ]         [      sqrt(2)      ]
+               [ --------------------------- ]
+               [              2              ]
+                                            [                  - %i (a - g)   ]
+                                            [   (1 - cos(b)) %e               ]
+                                            [   ---------------------------   ]
+                                            [                2                ]
+                                            [                                 ]
+                                            [                    %i g         ]
+                                    Col 3 = [           sin(b) %e             ]
+                                            [         - -------------         ]
+                                            [              sqrt(2)            ]
+                                            [                                 ]
+                                            [                - %i ((- a) - g) ]
+                                            [ (1 + cos(b)) %e                 ]
+                                            [ ------------------------------- ]
+                                            [                2                ]
+(%o6)               /Users/rds/Documents/Maxima/spinone.mac
