@@ -1,0 +1,50 @@
+
+NIL
+(%o1)                                done
+(%i2) 
+read and interpret file: /Users/rds/Documents/QM/QM1/hw4.mac
+(%i3) kill(all)
+(%o0)                                done
+(%i1) A:matrix([0,t],[-t,0])
+                                  [  0   t ]
+(%o1)                             [        ]
+                                  [ - t  0 ]
+(%i2) U:matrix([1,%i],[%i,1])/sqrt(2)
+                             [    1       %i    ]
+                             [ -------  ------- ]
+                             [ sqrt(2)  sqrt(2) ]
+(%o2)                        [                  ]
+                             [   %i        1    ]
+                             [ -------  ------- ]
+                             [ sqrt(2)  sqrt(2) ]
+(%i3) adjoint(U) . A . U
+                               [ %i t    0    ]
+(%o3)                          [              ]
+                               [  0    - %i t ]
+(%i4) matrixexp(%)
+Proviso: assuming 4*t # 0
+                             [   %i t           ]
+                             [ %e         0     ]
+(%o4)                        [                  ]
+                             [           - %i t ]
+                             [   0     %e       ]
+(%i5) U . % . adjoint(U)
+             [      %i t     - %i t          - %i t        %i t ]
+             [    %e       %e           %i %e         %i %e     ]
+             [    ------ + --------     ----------- - --------- ]
+             [      2         2              2            2     ]
+(%o5)        [                                                  ]
+             [      %i t        - %i t       %i t     - %i t    ]
+             [ %i %e       %i %e           %e       %e          ]
+             [ --------- - -----------     ------ + --------    ]
+             [     2            2            2         2        ]
+(%i6) trigrat(%)
+                             [  cos(t)   sin(t) ]
+(%o6)                        [                  ]
+                             [ - sin(t)  cos(t) ]
+(%i7) trigrat(matrixexp(A))
+Proviso: assuming 4*t # 0
+                             [  cos(t)   sin(t) ]
+(%o7)                        [                  ]
+                             [ - sin(t)  cos(t) ]
+(%o7)                 /Users/rds/Documents/QM/QM1/hw4.mac
