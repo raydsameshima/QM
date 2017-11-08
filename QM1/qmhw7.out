@@ -1,0 +1,65 @@
+(%i1) assume(N > 0,a > 0)
+(%o1)                           [N > 0, a > 0]
+(%i2) phi(x):=N*exp((-x^2)/a^2)
+                                                2
+                                             - x
+(%o2)                        phi(x) := N exp(----)
+                                               2
+                                              a
+(%i3) normalization:integrate(phi(x)^2,x,-inf,inf)
+                                           2
+                                sqrt(%pi) N  a
+(%o3)                           --------------
+                                   sqrt(2)
+(%i4) sol:solve(normalization = 1,N)
+                               1/4                 1/4
+                              2                   2
+(%o4)             [N = - --------------, N = --------------]
+                            1/4                 1/4
+                         %pi    sqrt(a)      %pi    sqrt(a)
+(%i5) print("Let me pick the second, positive one:")
+Let me pick the second, positive one: 
+(%i6) define(phi(x),ev(phi(x),sol[2]))
+                                                2
+                                               x
+                                             - --
+                                                2
+                                       1/4     a
+                                      2    %e
+(%o6)                      phi(x) := --------------
+                                        1/4
+                                     %pi    sqrt(a)
+(%i7) print("Define A(k) as the Fourier transformed phi(x):")
+Define A(k) as the Fourier transformed phi(x): 
+(%i8) define(A(k),(1/sqrt(2*%pi))*integrate(phi(x)*exp(%i*k*x),x,-inf,inf))
+                                                2  2
+                                               a  k
+                                             - -----
+                                                 4
+                                   sqrt(a) %e
+(%o8)                      A(k) := -----------------
+                                       1/4    1/4
+                                      2    %pi
+(%i9) print("the expectation values for 1,x and x^2:")
+the expectation values for 1,x and x^2: 
+(%i10) integrate(phi(x)^2,x,-inf,inf)
+(%o10)                                 1
+(%i11) integrate(phi(x)^2*x,x,-inf,inf)
+(%o11)                                 0
+(%i12) integrate(phi(x)^2*x^2,x,-inf,inf)
+                                       2
+                                      a
+(%o12)                                --
+                                      4
+(%i13) print("the expectation values for 1,k and x^2:")
+the expectation values for 1,k and x^2: 
+(%i14) integrate(A(k)^2,k,-inf,inf)
+(%o14)                                 1
+(%i15) integrate(A(k)^2*k,k,-inf,inf)
+(%o15)                                 0
+(%i16) integrate(A(k)^2*k^2,k,-inf,inf)
+                                      1
+(%o16)                                --
+                                       2
+                                      a
+(%o16)               /Users/rds/Documents/QM/QM1/qmhw7.mac

@@ -4,8 +4,10 @@ assume(N>0,a>0);
 phi(x) := N*exp(-x^2/a^2);
 normalization: integrate((phi(x))^2, x,-inf,inf);
 sol: solve(normalization=1,N);
+print("Let me pick the second, positive one:")$
 define(phi(x), ev(phi(x),sol[2]));
-define(A(k), 1/sqrt(2*%pi)*integrate(phi(x)*exp(%i*k*x),x,-inf,inf)); /* , sol[2]; */
+print("Define A(k) as the Fourier transformed phi(x):")$
+define(A(k), 1/sqrt(2*%pi)*integrate(phi(x)*exp(%i*k*x),x,-inf,inf)); 
 print("the expectation values for 1,x and x^2:")$
 integrate(phi(x)^2,x,-inf,inf);
 integrate(phi(x)^2*x,x,-inf,inf);
