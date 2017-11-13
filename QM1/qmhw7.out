@@ -1,5 +1,8 @@
-(%i1) assume(N > 0,a > 0)
-(%o1)                           [N > 0, a > 0]
+read and interpret file: /Users/raysameshima/Documents/QM/QM1/qmhw7.mac
+(%i3) kill(all)
+(%o0)                                done
+(%i1) assume(N > 0,a > 0,m > 0,h > 0)
+(%o1)                    [N > 0, a > 0, m > 0, h > 0]
 (%i2) phi(x):=N*exp((-x^2)/a^2)
                                                 2
                                              - x
@@ -7,8 +10,8 @@
                                                2
                                               a
 (%i3) normalization:integrate(phi(x)^2,x,-inf,inf)
-                                           2
-                                sqrt(%pi) N  a
+                                             2
+                                sqrt(%pi) a N
 (%o3)                           --------------
                                    sqrt(2)
 (%i4) sol:solve(normalization = 1,N)
@@ -29,37 +32,133 @@ Let me pick the second, positive one:
 (%o6)                      phi(x) := --------------
                                         1/4
                                      %pi    sqrt(a)
-(%i7) print("Define A(k) as the Fourier transformed phi(x):")
+(%i7) phizerox:phi(x)
+                                           2
+                                          x
+                                        - --
+                                           2
+                                  1/4     a
+                                 2    %e
+(%o7)                           --------------
+                                   1/4
+                                %pi    sqrt(a)
+(%i8) print("Define A(k) as the Fourier transformed phi(x):")
 Define A(k) as the Fourier transformed phi(x): 
-(%i8) define(A(k),(1/sqrt(2*%pi))*integrate(phi(x)*exp(%i*k*x),x,-inf,inf))
+(%i9) define(A(k),integrate(phi(x)*exp(%i*k*x),x,-inf,inf)/sqrt(2*%pi))
                                                 2  2
                                                a  k
                                              - -----
                                                  4
                                    sqrt(a) %e
-(%o8)                      A(k) := -----------------
+(%o9)                      A(k) := -----------------
                                        1/4    1/4
                                       2    %pi
-(%i9) print("the expectation values for 1,x and x^2:")
+(%i10) print("the expectation values for 1,x and x^2:")
 the expectation values for 1,x and x^2: 
-(%i10) integrate(phi(x)^2,x,-inf,inf)
-(%o10)                                 1
-(%i11) integrate(phi(x)^2*x,x,-inf,inf)
-(%o11)                                 0
-(%i12) integrate(phi(x)^2*x^2,x,-inf,inf)
+(%i11) integrate(phi(x)^2,x,-inf,inf)
+(%o11)                                 1
+(%i12) integrate(phi(x)^2*x,x,-inf,inf)
+(%o12)                                 0
+(%i13) integrate(phi(x)^2*x^2,x,-inf,inf)
                                        2
                                       a
-(%o12)                                --
+(%o13)                                --
                                       4
-(%i13) print("the expectation values for 1,k and x^2:")
+(%i14) print("the expectation values for 1,k and x^2:")
 the expectation values for 1,k and x^2: 
-(%i14) integrate(A(k)^2,k,-inf,inf)
-(%o14)                                 1
-(%i15) integrate(A(k)^2*k,k,-inf,inf)
-(%o15)                                 0
-(%i16) integrate(A(k)^2*k^2,k,-inf,inf)
+(%i15) integrate(A(k)^2,k,-inf,inf)
+(%o15)                                 1
+(%i16) integrate(A(k)^2*k,k,-inf,inf)
+(%o16)                                 0
+(%i17) integrate(A(k)^2*k^2,k,-inf,inf)
                                       1
-(%o16)                                --
+(%o17)                                --
                                        2
                                       a
-(%o16)               /Users/rds/Documents/QM/QM1/qmhw7.mac
+(%i18) print("Let us introduce time dependence.")
+Let us introduce time dependence. 
+(%i19) print("Using desolve, we put the initial condition to solve Schroedinger eq:
+")
+Using desolve, we put the initial condition to solve Schroedinger eq:
+ 
+(%i20) atvalue(Ak(t),t = 0,A(k))
+                                            2  2
+                                           a  k
+                                         - -----
+                                             4
+                               sqrt(a) %e
+(%o20)                         -----------------
+                                   1/4    1/4
+                                  2    %pi
+(%i21) Ak(0)
+                                            2  2
+                                           a  k
+                                         - -----
+                                             4
+                               sqrt(a) %e
+(%o21)                         -----------------
+                                   1/4    1/4
+                                  2    %pi
+(%i22) desolve(diff(Ak(t),t,1) = (-(%i*h*k^2)*Ak(t))/(2*m),Ak(t))
+                                               2       2  2
+                                         %i h k  t    a  k
+                                      (- ---------) - -----
+                                            2 m         4
+                            sqrt(a) %e
+(%o22)              Ak(t) = -------------------------------
+                                       1/4    1/4
+                                      2    %pi
+(%i23) print("I don't know why but, we can NOT siply fourier back it.")
+I don't know why but, we can NOT siply fourier back it. 
+(%i24) print("So let me put phi(x,t) by hand:")
+So let me put phi(x,t) by hand: 
+(%i25) phi(x,t):=
+           ((a^2/(2*%pi))^(1/4)*sqrt(%pi/((m*a^2+2*%i*h*t)/(4*m)))
+                               *exp((-m*x^2)/(m*a^2+2*%i*h*t)))/sqrt(2*%pi)
+                       2                                          2
+                      a    1/4            %pi                - m x
+                    (-----)    sqrt(---------------) exp(---------------)
+                     2 %pi                        2                    2
+                                    2 %i h t + m a       2 %i h t + m a
+                                    ---------------
+                                          4 m
+(%o25) phi(x, t) := -----------------------------------------------------
+                                         sqrt(2 %pi)
+(%i26) phizerox
+                                           2
+                                          x
+                                        - --
+                                           2
+                                  1/4     a
+                                 2    %e
+(%o26)                          --------------
+                                   1/4
+                                %pi    sqrt(a)
+(%i27) phi(x,0)
+                                           2
+                                          x
+                                        - --
+                                           2
+                                  1/4     a
+                                 2    %e
+(%o27)                          --------------
+                                   1/4
+                                %pi    sqrt(a)
+(%i28) limit(phi(x,t),t,0)
+                                           2
+                                          x
+                                        - --
+                                           2
+                                  1/4     a
+                                 2    %e
+(%o28)                          --------------
+                                   1/4
+                                %pi    sqrt(a)
+(%i29) integrate(conjugate(phi(x,t))*phi(x,t),x,-inf,inf)
+                                     2  2    4  2
+                             sqrt(4 h  t  + a  m )
+(%o29)            -------------------------------------------
+                        2                                2
+                  sqrt(a  m - 2 %i h t) sqrt(2 %i h t + a  m)
+(%i30) fullratsimp(%^2)
+(%o30)                                 1

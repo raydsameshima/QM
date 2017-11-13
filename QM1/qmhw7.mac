@@ -6,6 +6,7 @@ normalization: integrate((phi(x))^2, x,-inf,inf);
 sol: solve(normalization=1,N);
 print("Let me pick the second, positive one:")$
 define(phi(x), ev(phi(x),sol[2]));
+phizerox: phi(x);
 print("Define A(k) as the Fourier transformed phi(x):")$
 define(A(k), 1/sqrt(2*%pi)*integrate(phi(x)*exp(%i*k*x),x,-inf,inf)); 
 print("the expectation values for 1,x and x^2:")$
@@ -16,6 +17,24 @@ print("the expectation values for 1,k and x^2:")$
 integrate((A(k))^2,k,-inf,inf);
 integrate((A(k))^2*k,k,-inf,inf);
 integrate((A(k))^2*k^2,k,-inf,inf);
+/*
 print("Let us introduce time dependence.")$
 define(A(k,t), A(k) * exp(h*k^2*t/(%i*2*m)));
 %i*h*diff(A(k,t),t,1)/A(k,t);
+*/
+print("Let us introduce time dependence.")$
+print("Using desolve, we put the initial condition to solve Schroedinger eq:
+")$
+atvalue(Ak(t),t=0,A(k));
+Ak(0);
+desolve(diff(Ak(t),t,1)=-%i*h*k^2/(2*m) * Ak(t), Ak(t));
+print("I don't know why but, we can NOT siply fourier back it.")$
+print("So let me put phi(x,t) by hand:")$
+phi(x,t) := 1/sqrt(2*%pi) * (a^2/(2*%pi))^(1/4) 
+          * sqrt(%pi/((m*a^2 + 2*%i*h*t)/(4*m))) 
+          * exp(-m*x^2/(m*a^2 + 2*%i*h*t)); 
+phizerox;
+phi(x,0);
+limit(phi(x,t),t,0);
+integrate(conjugate (phi(x,t)) * phi(x,t), x,-inf,inf);
+fullratsimp(%^2);
