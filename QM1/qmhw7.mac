@@ -1,6 +1,6 @@
 /* fall 2017 quantum mechanics hw7-3 */
 kill(all);
-assume(N>0,a>0);
+assume(N>0,a>0,m>0,h>0);
 phi(x) := N*exp(-x^2/a^2);
 normalization: integrate((phi(x))^2, x,-inf,inf);
 sol: solve(normalization=1,N);
@@ -16,3 +16,6 @@ print("the expectation values for 1,k and x^2:")$
 integrate((A(k))^2,k,-inf,inf);
 integrate((A(k))^2*k,k,-inf,inf);
 integrate((A(k))^2*k^2,k,-inf,inf);
+print("Let us introduce time dependence.")$
+define(A(k,t), A(k) * exp(h*k^2*t/(%i*2*m)));
+%i*h*diff(A(k,t),t,1)/A(k,t);
