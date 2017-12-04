@@ -1,0 +1,14 @@
+/* qm home work 11 */
+kill(all)$
+omega:sqrt(1+E/wm);
+taylor(omega,E,0,4);
+H0:a*diag_matrix(1,1,2);
+Hp:b*matrix([-1,0,0],[0,0,1],[0,1,0]);
+eigenvectors(H0);
+eigenvectors(Hp);
+eigenvectors(H0+Hp);
+ev:eigenvalues(H0+Hp);
+E1:ev[1][1];
+E2:ev[1][2];
+taylor(E1,b,0,4);
+taylor(E2,b,0,4);
