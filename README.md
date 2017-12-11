@@ -1,3 +1,4 @@
-# QM2
+# QM
 
-Some naive coding related to quantum mechanics.
+Some naive codes related to quantum mechanics.
+
